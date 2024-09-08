@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testai-ui
+  namespace: test-ai-dev-ns
+  labels:
+    app: testai-ui
+    type: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: testai-ui
+  template:
+    metadata:
+      labels:
+        app: testai-ui
+    spec:
+      containers:
+      - name: testai-ui
+        image: autoconfigaksacr.azurecr.io/testai-frontend:145679
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: acr-secret
